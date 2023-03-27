@@ -20,8 +20,8 @@ parser.add_argument("--resume", default="", type=str, help="Resume path (default
 parser.add_argument("--scale_factor", type=int, default=4, help="scale")
 parser.add_argument("--train_dataset_dir", default='E:/Desktop/D3Dnet-master/code/data/Vid4', type=str, help="train_dataset")
 parser.add_argument("--inType", type=str, default='y', help="RGB input or y input")
-parser.add_argument("--batchSize", type=int, default=1, help="Training batch size")
-parser.add_argument("--nEpochs", type=int, default=1, help="Number of epochs to train for")
+parser.add_argument("--batchSize", type=int, default=4, help="Training batch size")
+parser.add_argument("--nEpochs", type=int, default=8, help="Number of epochs to train for")
 parser.add_argument("--gpu", default=0, type=int, help="gpu ids (default: 0)")
 parser.add_argument("--lr", type=float, default=4e-4, help="Learning Rate. Default=4e-4")
 parser.add_argument('--gamma', type=float, default=0.5, help='gamma')
@@ -33,11 +33,9 @@ opt = parser.parse_args()
 torch.cuda.set_device(opt.gpu)
 
 
-def train(num_files, train_loader, scale_factor, epoch_num):
+def train(train_loader, scale_factor, epoch_num):
 
     net = Net(scale_factor).cuda()
-    if num_files != 1:
-        net.load_state_dict(torch.load("./model.pth"))
 
     epoch_state = 0
     loss_list = []
@@ -75,20 +73,17 @@ def train(num_files, train_loader, scale_factor, epoch_num):
             loss_list.append(float(np.array(loss_epoch).mean()))
             psnr_list.append(float(np.array(psnr_epoch).mean()))
             print(time.ctime()[4:-5] + ' Epoch---%d, loss_epoch---%f, PSNR---%f' % (idx_epoch + 1, float(np.array(loss_epoch).mean()), float(np.array(psnr_epoch).mean())))
-            torch.save(net.state_dict(), "./model.pth")
             loss_epoch = []
             psnr_epoch = []
 
 
 def main():
-    for num_files in range(1, 5):
-        train_set = TrainSetLoader(num_files, opt.train_dataset_dir, scale_factor=opt.scale_factor,
-                                   inType=opt.inType)
-        print(f"第{num_files}个数据集预处理完成，准备打包！")
-        train_loader = DataLoader(dataset=train_set, num_workers=opt.threads, batch_size=opt.batchSize,
-                                  shuffle=True)
-        print(f"第{num_files}个数据集打包完成，开始训练！")
-        train(num_files, train_loader, opt.scale_factor, opt.nEpochs)
+    train_set = TrainSetLoader(opt.train_dataset_dir, scale_factor=opt.scale_factor, inType=opt.inType)
+    print(f"数据集预处理完成，准备打包！")
+    train_loader = DataLoader(dataset=train_set, num_workers=opt.threads,
+                              batch_size=opt.batchSize, shuffle=True)
+    print(f"数据集打包完成，开始训练！")
+    train(train_loader, opt.scale_factor, opt.nEpochs)
 
 
 if __name__ == '__main__':
