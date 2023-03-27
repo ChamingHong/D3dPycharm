@@ -3,19 +3,11 @@ import matplotlib.pyplot as plt
 
 
 class TrainSetLoader(Dataset):
-    def __init__(self, num_files, dataset_dir, scale_factor, inType='y'):
+    def __init__(self, dataset_dir, scale_factor, inType='y'):
         super(TrainSetLoader).__init__()
         self.scale_factor = scale_factor
         self.dir = dataset_dir
-        self.num_files = num_files
-        if num_files == 1:
-            self.train_list = [f"calendar/{i:02d}" for i in range(1, 32)]  # 获取所有文件名
-        elif num_files == 2:
-            self.train_list = [f"city/{i:02d}" for i in range(1, 32)]  # 获取所有文件名
-        elif num_files == 3:
-            self.train_list = [f"foliage/{i:02d}" for i in range(1, 32)]  # 获取所有文件名
-        elif num_files == 4:
-            self.train_list = [f"walk/{i:02d}" for i in range(1, 32)]  # 获取所有文件名
+        self.train_list = [f"calendar/{i:02d}" for i in range(1, 32)]  # 获取所有文件名
 
         # with open(dataset_dir+'/sep_trainlist.txt', 'r') as f:
         #     self.train_list = f.read().splitlines()
@@ -26,28 +18,9 @@ class TrainSetLoader(Dataset):
         HR = []
         LR = []
         for i in range(7):
-            if self.num_files == 1:
-                img_hr = Image.open(self.dir + f'/calendar/hr/hr_{idx + i + 1:02d}.png')
-                img_lr = Image.open(self.dir + f'/calendar/lr_x4/lr_{idx + i + 1:02d}.png')
-            elif self.num_files == 2:
-                img_hr = Image.open(self.dir + f'/city/hr/hr_{idx + i + 1:02d}.png')
-                img_lr = Image.open(self.dir + f'/city/lr_x4/lr_{idx + i + 1:02d}.png')
-            elif self.num_files == 3:
-                img_hr = Image.open(self.dir + f'/foliage/hr/hr_{idx + i + 1:02d}.png')
-                img_lr = Image.open(self.dir + f'/foliage/lr_x4/lr_{idx + i + 1:02d}.png')
-            elif self.num_files == 4:
-                img_hr = Image.open(self.dir + f'/walk/hr/hr_{idx + i + 1:02d}.png')
-                img_lr = Image.open(self.dir + f'/walk/lr_x4/lr_{idx + i + 1:02d}.png')
-            # if idx <= 24:
-            # elif (idx > 24) and (idx <= 49):
-            #     img_hr = Image.open(self.dir + f'/city/hr/hr_{idx + i + 1 -25:02d}.png')
-            #     img_lr = Image.open(self.dir + f'/city/lr_x4/lr_{idx + i + 1 -25:02d}.png')
-            # elif (idx > 49) and (idx <= 74):
-            #     img_hr = Image.open(self.dir + f'/foliage/hr/hr_{idx + i + 1 - 50:02d}.png')
-            #     img_lr = Image.open(self.dir + f'/foliage/lr_x4/lr_{idx + i + 1 - 50:02d}.png')
-            # else:
-            #     img_hr = Image.open(self.dir + f'/walk/hr/hr_{idx + i + 1 - 75:02d}.png')
-            #     img_lr = Image.open(self.dir + f'/walk/lr_x4/lr_{idx + i + 1 - 75:02d}.png')
+            img_hr = Image.open(self.dir + f'/calendar/hr/hr_{idx + i + 1:02d}.png')
+            img_lr = Image.open(self.dir + f'/calendar/lr_x4/lr_{idx + i + 1:02d}.png')
+
             img_hr = np.array(img_hr, dtype=np.float32)/255.0    # (576, 720, 3)
             img_lr = np.array(img_lr, dtype=np.float32)/255.0    # (144, 180, 3)
 
