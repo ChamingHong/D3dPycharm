@@ -15,7 +15,7 @@ class Net(nn.Module):
             nn.Conv3d(in_channels=in_channel, out_channels=nf, kernel_size=3, stride=1, padding=1, bias=False),
             nn.LeakyReLU(negative_slope=0.1, inplace=True)
         )
-        self.residual_layer = self.make_layer(functools.partial(ResBlock_3d, nf), 5)
+        self.residual_layer = self.make_layer(functools.partial(ResBlock_3d, nf), 6)
         self.TA = nn.Conv2d(7 * nf, nf, 1, 1, bias=True)
         ### reconstruct
         self.reconstruct = self.make_layer(functools.partial(ResBlock, nf), 6)
