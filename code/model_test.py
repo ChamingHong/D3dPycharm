@@ -21,7 +21,7 @@ class Net(nn.Module):
         self.residual_layer = self.make_layer(functools.partial(ResBlock_3d, nf), 5)
         self.TA = nn.Conv2d(2 * 7 * nf, nf, 1, 1, bias=True)
         ### reconstruct
-        self.reconstruct = self.make_layer(functools.partial(ResBlock, nf), 36)
+        self.reconstruct = self.make_layer(functools.partial(ResBlock, nf), 6)
         ###upscale
         self.upscale = nn.Sequential(
             nn.Conv2d(nf, nf * upscale_factor ** 2, 1, 1, 0, bias=False),

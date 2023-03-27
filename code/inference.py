@@ -2,7 +2,7 @@ from torch.autograd import Variable
 from torch.utils.data import DataLoader
 from dataset import *
 
-from model_01 import *
+from model_D3d_base import *
 from evaluation import psnr2, ssim
 import numpy as np
 import matplotlib.pyplot as plt

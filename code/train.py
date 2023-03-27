@@ -5,7 +5,7 @@ import torch
 from torch.autograd import Variable
 from torch.utils.data import DataLoader
 import torch.backends.cudnn as cudnn
-from model_03 import Net
+from model_already import Net
 from dataset import *
 import matplotlib.pyplot as plt
 from evaluation import psnr
@@ -21,7 +21,7 @@ parser.add_argument("--scale_factor", type=int, default=4, help="scale")
 parser.add_argument("--train_dataset_dir", default='E:/Desktop/D3Dnet-master/code/data/Vid4', type=str, help="train_dataset")
 parser.add_argument("--inType", type=str, default='y', help="RGB input or y input")
 parser.add_argument("--batchSize", type=int, default=4, help="Training batch size")
-parser.add_argument("--nEpochs", type=int, default=8, help="Number of epochs to train for")
+parser.add_argument("--nEpochs", type=int, default=4, help="Number of epochs to train for")
 parser.add_argument("--gpu", default=0, type=int, help="gpu ids (default: 0)")
 parser.add_argument("--lr", type=float, default=4e-4, help="Learning Rate. Default=4e-4")
 parser.add_argument('--gamma', type=float, default=0.5, help='gamma')

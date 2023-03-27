@@ -194,7 +194,7 @@ class PyConvBlock(nn.Module):
 if __name__ == "__main__":
     net = Net(4).cuda()
     from thop import profile
-    input = torch.randn(1, 1, 7, 180, 120).cuda()
+    input = torch.randn(1, 1, 7, 32, 32).cuda()
     flops, params = profile(net, inputs=(input,))
     total = sum([param.nelement() for param in net.parameters()])
     print('   Number of params: %.2fM' % (total / 1e6))

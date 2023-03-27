@@ -45,7 +45,7 @@ class TrainSetLoader(Dataset):
         return LR, HR
 
     def __len__(self):
-        return len(self.train_list) - 6
+        return len(self.train_list) - 7
 
 
 class ValidSetLoader(Dataset):
